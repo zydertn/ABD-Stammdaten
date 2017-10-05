@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+	<h:panelGrid columns="6" width="100%">
+		<ice:outputText value="Anrede:" />
+		<ice:selectOneMenu value="#{personController.person.gender}">
+			<f:selectItems value="#{actionController.model.genders}" />
+		</ice:selectOneMenu>
+		<ice:outputText value="Vorname:" />
+		<ice:inputText value="#{personController.person.firstname}" size="20"></ice:inputText>
+		<ice:outputText value="Name:" />
+		<ice:inputText value="#{personController.person.name}" size="20"></ice:inputText>
+		<ice:outputText value="Service-Nummer:" />
+		<ace:maskedEntry id="phoneInput"
+			value="#{personController.person.phoneNr}" mask="9999-9999999" />
+		<ice:outputText value="E-Mail:" />
+		<ice:inputText value="#{personController.person.email}"></ice:inputText>
+		<ice:outputText value="DE-Mail:" />
+		<ice:inputText value="#{personController.person.de_mail}"></ice:inputText>
+	</h:panelGrid>
+
+	<h:panelGrid width="100%" style="text-align: center;">
+		<ice:commandButton id="submitBtn" value="OK"
+			actionListener="#{personController.createPerson}" />
+	</h:panelGrid>
+
+</ui:composition>

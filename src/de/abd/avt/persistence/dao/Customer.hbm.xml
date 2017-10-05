@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.06.2011 16:26:21 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="de.abd.avt.persistence.dao.Customer" table="CUSTOMER">
+		<id name="id" type="int" column="CUSTOMER_ID" >
+			<generator class="identity"/>
+		</id>
+	 	<property index="true" type="string" name="name" column="CUSTOMER_NAME" length="100" />
+	 	<property type="string" name="branch" column="CUSTOMER_BRANCH" length="50" />
+	 	<property type="string" name="address" column="CUSTOMER_ADDRESS" length="100" />
+	 	<property type="string" name="invoiceAddress" column="CUSTOMER_INVOICE_ADDRESS" length="100" />
+	 	<many-to-one name="contactPerson" class="de.abd.avt.persistence.dao.Person" lazy="false">
+	 		<column name="CUSTOMER_CONTACT_PERSON"/>
+	 	</many-to-one>
+	 	<property type="string" name="customernumber" column="CUSTOMER_NUMBER" length="15" />
+	 	<many-to-one name="invoiceConfiguration" class="de.abd.avt.persistence.dao.InvoiceConfiguration" lazy="false" column="CUSTOMER_INVOICE_CONFIGURATION" not-null="false" cascade="all-delete-orphan" unique="true" foreign-key="IC_ID"></many-to-one>
+	 	<many-to-one name="invoiceContactPerson" class="de.abd.avt.persistence.dao.Person">
+	 		<column name="CUSTOMER_INVOICE_CONTACT_PERSON"/>
+	 	</many-to-one>
+	 	<property name="comment" type="string" column="CUSTOMER_COMMENT" length="100"/>
+	 	<property name="lastCalculationDate" type="timestamp" column="CUSTOMER_CALCULATION_DATE" />
+		<property type="string" name="vatNumber" column="CUSTOMER_VAT" length="25" />
+		<many-to-one name="country" class="de.abd.avt.persistence.dao.Country" lazy="false" column="CUSTOMER_COUNTRY" unique="false" foreign-key="COUNTRY_ID"></many-to-one>
+	 	<many-to-one name="group" class="de.abd.avt.persistence.dao.Customergroup" fetch="select">
+             <column name="CG_NAME" not-null="true"/>
+	 	</many-to-one>
+
+		<set name="elevators" table="elevator" inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="CUSTOMER_ID" not-null="true"/>
+            </key>
+            <one-to-many class="de.abd.avt.persistence.dao.Elevator" />
+        </set>
+		<set name="contactPersons" table="person" inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="CUSTOMER_ID" not-null="true"/>
+            </key>
+            <one-to-many class="de.abd.avt.persistence.dao.Person" />
+        </set>
+		
+		<!-- map name="bills" table="billTables" cascade="all">  
+			<key column="parent_id"></key>  
+			<index column="bill_date" type="string"></index>  
+			<many-to-many class="de.abd.mda.persistence.dao.Bill" column="billid"></many-to-many>  
+		</map-->  
+	 </class>
+ </hibernate-mapping>

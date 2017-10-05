@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>ABD Aufzugs-und Störugsverwaltung</title>
+	<link rel="stylesheet" type="text/css"
+		href="./xmlhttp/css/rime/rime.css" />
+</h:head>
+<h:body styleClass="ice-skin-rime" style="background-color:#D8D8D8">
+	<h:form id="form1">
+		<!-- ui:include src="CustomerTable.xhtml"></ui:include-->
+		<ui:include src="upperMenu.xhtml"></ui:include>
+
+		<p>
+			<h:panelGrid columns="2">
+				<ice:outputText style="font-weight:bolder; margin-right:15px"
+					value="Kundenliste" />
+				<ice:outputText escape="false" style="color: red"
+					value="#{actionController.requestMessage}" />
+			</h:panelGrid>
+		</p>
+
+		<h:panelGrid columns="2">
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<ice:outputText style="font-weight:bold" value="Kunden:" />
+				<h:panelGrid>
+					<ace:dataTable 	id="customerTable" 
+									value="#{customerController.customerList}" 
+									var="customer" 
+									paginator="true"
+									paginatorPosition="bottom"
+									rows="20">
+						<ace:column id="customerNumber" headerText="Kundennummer"
+							sortBy="#{customer.customernumber}"
+							filterBy="#{customer.customernumber}"
+							filterMatchMode="startsWith">
+							<ice:outputText value="#{customer.customernumber}" />
+						</ace:column>
+						<ace:column id="customer" headerText="Kunde"
+							sortBy="#{customer.name}" filterBy="#{customer.name}"
+							filterMatchMode="startsWith">
+							<ice:outputText value="#{customer.name}" />
+						</ace:column>
+						<ace:column id="customerAddress" headerText="Adresse">
+							<ice:outputText value="#{customer.address}"/>
+						</ace:column>
+						<ace:column id="customerCountry" headerText="Land" sortBy="#{customer.country.name}">
+							<ice:outputText value="#{customer.country.name}"/>
+						</ace:column>
+					</ace:dataTable>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGrid>
+
+	</h:form>
+	<h:form id="form2">
+		<h:panelGrid>
+			<ice:commandButton value="Tabelle exportieren" action="#{customerController.downloadCustomerList}">
+			   <f:ajax disabled="true"/>
+			</ice:commandButton>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

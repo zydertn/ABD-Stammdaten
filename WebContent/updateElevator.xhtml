@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+<h:head>
+	<title>ABD Aufzugs-und Störugsverwaltung</title>
+	<link rel="stylesheet" type="text/css" href="./css/mystyle.css" />
+</h:head>
+<h:body styleClass="ice-skin-rime" style="background-color:#D8D8D8">
+
+	<h:form id="updateElevatorForm">
+		<ui:include src="upperMenu.xhtml"></ui:include>
+		<p>
+			<h:panelGrid columns="2">
+				<ice:outputText style="font-weight:bolder; margin-right:15px" value="Aufzugsanlage ändern/löschen" />
+				<ice:outputText escape="false" style="color: red" value="#{actionController.requestMessage}" />		
+			</h:panelGrid>
+		</p>
+	</h:form>
+	<h:form id="bodyPanel">
+		<h:panelGrid>
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<ice:outputText style="font-weight:bold" value="Aufzugsanlage:" />
+				<h:panelGrid columns="5">
+					<ice:outputText value="Hersteller: " />
+					<ice:selectOneMenu partialSubmit="true" value="#{elevatorController.elevator.manufacturer}" valueChangeListener="#{elevatorController.manufacturerChange}" >
+						<f:ajax execute="@this" render="selectOneBrands"/>
+						<f:selectItems value="#{actionController.model.configuration.manufacturers}" var="manufacturer" itemLabel="#{manufacturer.name}" itemValue="#{manufacturer.name}" />
+					</ice:selectOneMenu>
+					<ice:outputText/>
+					<ice:outputText/>
+					<ice:outputText/>
+					
+					<ice:outputText value="Aufzugstyp: " />
+					<ice:selectOneMenu id="selectOneBrands" disabled="#{elevatorController.componentDisabled}" value="#{elevatorController.elevator.brand}">
+						<f:selectItems value="#{elevatorController.manufacturerBrands}"/>
+						<ace:ajax/>
+					</ice:selectOneMenu>
+					<ice:outputText/>
+					<ice:outputText/>
+					<ice:outputText/>
+					
+					<ice:outputText value="Fabriknummer: " />
+					<ace:autoCompleteEntry id="mnAuto"
+						value="#{elevatorController.elevator.machineNumber}" rows="20"
+						width="100" filterMatchMode="" valueChangeListener="#{elevatorController.machineNumberChange}"
+						labelPosition="left">
+						<f:ajax execute="@this" render="bodyPanel"/>
+						<f:selectItems value="#{elevatorController.machineNumberSI}" />
+					</ace:autoCompleteEntry>
+					<ice:outputText/>
+					<ice:outputText/>
+					<ice:outputText/>
+					
+					<ice:outputText value="Kunde: " />
+					<ice:selectOneMenu disabled="true" partialSubmit="true" value="#{elevatorController.customernumber}" valueChangeListener="#{elevatorController.customerChange}">
+						<f:ajax execute="@this" render="selectOnePerson"/>
+						<f:selectItems value="#{elevatorController.customerList}" var="customer" itemLabel="#{customer.name} - #{customer.customernumber}" itemValue="#{customer.customernumber}"/>
+					</ice:selectOneMenu>
+					<ice:outputText value="Ansprechpartner: " style="margin-left:20px" />
+					<ice:selectOneMenu disabled="#{elevatorController.componentDisabled}" id="selectOnePerson" value="#{elevatorController.contactPersonID}">
+						<f:selectItems value="#{elevatorController.contactPersons}" var="person" itemLabel="#{person.nameString} - #{person.phoneNr}" itemValue="#{person.id}"/>
+					</ice:selectOneMenu>
+					<ice:commandButton disabled="#{elevatorController.componentDisabled}" image="images/Plus_Icon_31.png" actionListener="#{personController.openDialog}"></ice:commandButton>
+
+
+				</h:panelGrid>
+			</h:panelGrid>
+			
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<h:panelGrid columns="3">
+					<ace:gMap style="width: 0px; height: 0px" id="gMap"><ace:gMapAutocomplete style="xAlign:left" address="#{elevatorController.address}"/></ace:gMap>
+					<ice:outputText value="Position im Gebäude:" style="margin-left:20px" />
+					<ice:inputText value="#{elevatorController.elevator.position}" size="40"/>
+
+					<h:outputText value="Address: ${elevatorController.address}"/>
+					<h:inputHidden value="#{elevatorController.elevator.installationAddress}"></h:inputHidden>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<ice:outputText style="font-weight:bold" value="Erweiterte Informationen:" />
+				<h:panelGrid columns="2">
+					<ice:outputText value="Aufzugsart:"/>
+					<ice:selectOneMenu disabled="#{elevatorController.componentDisabled}"
+						value="#{elevatorController.elevator.technique}">
+						<f:selectItems value="#{actionController.model.techniques}" />
+					</ice:selectOneMenu>
+					<ice:outputText value="Maschinenraum:" style="margin-right: 38px;"/>
+					<ice:selectOneRadio disabled="#{elevatorController.componentDisabled}" id="yesNoRadio" value ="#{elevatorController.elevator.equippedWithMachineRoom}">
+					  <f:selectItem itemValue="#{true}" itemLabel="ja"/>
+					  <f:selectItem itemValue="#{false}" itemLabel="nein" />
+					</ice:selectOneRadio>
+					<ice:outputText value="Gebäudetyp:"/>
+					<ice:selectOneMenu disabled="#{elevatorController.componentDisabled}"
+						value="#{elevatorController.elevator.typeOfBuilding}">
+						<f:selectItems value="#{actionController.model.typesOfBuilding}" />
+					</ice:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<ice:outputText value="Zugang zum Gebäude:" />
+					<ice:inputText size="70" disabled="#{elevatorController.componentDisabled}"
+						value="#{elevatorController.elevator.accessToBuilding}"/>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<ice:outputText style="font-weight:bold" value="Status:" />
+				<h:panelGrid columns="2">
+					<ice:outputText value="Status der Anlage:"/>
+					<ice:selectOneMenu disabled="#{elevatorController.componentDisabled}"
+						value="#{elevatorController.elevator.status}">
+						<f:selectItems value="#{actionController.model.configuration.elevatorStates}" />
+					</ice:selectOneMenu>
+				</h:panelGrid>
+			</h:panelGrid>		
+		</h:panelGrid>
+		<h:panelGrid>
+			<h:panelGrid columns="3">
+				<ice:commandButton value="Abbrechen"
+					action="#{actionController.cancel}"/>
+				<ice:commandButton value="Änderungen speichern"
+					actionListener="#{elevatorController.updateElevatorAction}"/>
+				<ice:commandButton value="Löschen"
+					action="#{elevatorController.deleteElevatorAction}"/>
+			</h:panelGrid>
+		</h:panelGrid>
+
+	</h:form>
+	
+</h:body>
+<!-- h:outputStylesheet library="org.icefaces.component.skins"
+	name="rime.css" /-->
+</html>

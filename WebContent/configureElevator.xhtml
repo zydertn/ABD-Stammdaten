@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+<h:head>
+	<title>ABD Aufzugs-und Störugsverwaltung</title>
+	<link rel="stylesheet" type="text/css" href="./css/mystyle.css" />
+
+</h:head>
+<h:body styleClass="ice-skin-rime" style="background-color:#D8D8D8">
+
+	<style type="text/css">
+		.ui-accordion {
+		    width: 100%;
+		}
+		.ui-accordion .ui-accordion-header {
+		    cursor: pointer;
+		    margin-top: 1px;
+		    position: relative;
+		}
+		.ui-accordion .ui-accordion-li-fix {
+		    display: inline;
+		}
+		.ui-accordion .ui-accordion-header-active {
+		    border-bottom: 0 none !important;
+		}
+		.ui-accordion .ui-accordion-header a {
+		    display: block;
+		    font-size: 1em;
+		    padding: 0.5em 0.5em 0.5em 0.7em;
+		}
+		.ui-accordion-icons .ui-accordion-header a {
+		    padding-left: 2.2em;
+		}
+		.ui-accordion .ui-accordion-header .ui-icon {
+		    left: 0.5em;
+		    margin-top: -8px;
+		    position: absolute;
+		    top: 50%;
+		}
+		.ui-accordion .ui-accordion-content {
+		    border-top: 0 none;
+		    display: none;
+		    margin-bottom: 2px;
+		    margin-top: -2px;
+		    overflow: auto;
+		    padding: 1em 2.2em;
+		    position: relative;
+		    top: 1px;
+/*		    background-color:#E0E6F8;*/
+		}
+		.ui-accordion .ui-accordion-content-active {
+		    display: list-item;
+		}
+	</style>
+
+
+	<h:form id="configureElevatorForm">
+		<ui:include src="upperMenu.xhtml"></ui:include>
+		<p>
+			<h:panelGrid columns="2">
+				<ice:outputText style="font-weight:bolder; margin-right:15px" value="Konfiguration Aufzuganlagen" />
+				<ice:outputText escape="false" style="color: red" value="#{actionController.requestMessage}" />		
+			</h:panelGrid>
+		</p>
+		<h:panelGrid>
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<ace:accordion id="accordion" collapsible="true" autoHeight="false">
+					<ace:accordionPane id="elevatorBrands" title="Aufzugstypen">
+						<h:panelGrid>
+							<h:panelGrid>
+								<ace:dataTable id="manufacturerBrandsTable"
+									value="#{configurationController.manufacturerBrands}" var="mb" 
+									style="width:auto;" rows="15">
+									<ace:column id="manufacturer" headerText="Hersteller"
+										groupBy="#{mb.name}">
+										<h:outputText value="#{mb.name}" />
+									</ace:column>
+									<ace:column id="brand" headerText="Aufzugstyp">
+										<h:outputText value="#{mb.brand}" />
+									</ace:column>
+								</ace:dataTable>
+							</h:panelGrid>
+							<h:panelGrid columns="5">
+								<h:outputText value="Hersteller: " />
+								<ice:selectOneMenu value="#{configurationController.manufacturer}">
+									<f:selectItems
+										value="#{configurationController.model.configuration.manufacturers}"
+										var="manufacturer" itemLabel="#{manufacturer.name}"
+										itemValue="#{manufacturer.name}" />
+								</ice:selectOneMenu>
+								
+								<ice:outputText value="Aufzugstyp: "/>
+								<ice:inputText value="#{configurationController.brand}"/>
+								
+								<ice:commandButton value="Anlegen" action="#{configurationController.addBrand}"/>
+							</h:panelGrid>
+							<h:panelGrid columns="3">
+								<ice:commandButton value="Hersteller hinzufügen" actionListener="#{configurationController.openDialog}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</ace:accordionPane>
+					<ace:accordionPane id="elevatorTechniques" title="Aufzugsarten">
+						<h:panelGrid>
+							<h:panelGrid>
+								<ace:dataTable id="elevatorTechniquesTable"
+									value="#{configurationController.model.configuration.techniques}" var="technique"
+									style="width:auto;" rows="15">
+									<ace:column id="techniqueColumn" headerText="Aufzugsart">
+										<ice:outputText value="#{technique}" />
+									</ace:column>
+								</ace:dataTable>
+							</h:panelGrid>
+							<h:panelGrid columns="3">
+								<ice:outputText value="Aufzugsart: " />
+								<ice:inputText value="#{configurationController.technique}"/>
+								
+								<ice:commandButton value="Anlegen" action="#{configurationController.addTechnique}"/>
+							</h:panelGrid>
+						</h:panelGrid>
+					</ace:accordionPane>
+					<ace:accordionPane id="buildingTypes" title="Gebäudetypen">
+						<h:panelGrid>
+							<h:panelGrid>
+								<ace:dataTable id="typesOfBuildingTable"
+									value="#{configurationController.model.configuration.typesOfBuilding}" var="tob"
+									style="width:auto;" rows="15">
+									<ace:column id="tobColumn" headerText="Gebäudeart">
+										<ice:outputText value="#{tob}" />
+									</ace:column>
+								</ace:dataTable>
+							</h:panelGrid>
+							<h:panelGrid columns="3">
+								<ice:outputText value="Gebäudeart: " />
+								<ice:inputText value="#{configurationController.typeOfBuilding}"/>
+								
+								<ice:commandButton value="Anlegen" action="#{configurationController.addTypeOfBuilding}"/>
+							</h:panelGrid>
+						</h:panelGrid>
+					</ace:accordionPane>
+					<ace:accordionPane id="status" title="Status">
+						<h:panelGrid>
+							<h:panelGrid>
+								<ace:dataTable id="elevatorStatesTable"
+									value="#{configurationController.model.configuration.elevatorStates}" var="state"
+									style="width:auto;" rows="15">
+									<ace:column id="stateColumn" headerText="Status">
+										<ice:outputText value="#{state}" />
+									</ace:column>
+								</ace:dataTable>
+							</h:panelGrid>
+							<h:panelGrid columns="3">
+								<ice:outputText value="Status: " />
+								<ice:inputText value="#{configurationController.elevatorStatus}"/>
+								
+								<ice:commandButton value="Anlegen" action="#{configurationController.addElevatorStatus}"/>
+							</h:panelGrid>
+						</h:panelGrid>
+					</ace:accordionPane>
+				</ace:accordion>
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:form>
+
+	<ace:dialog id="dialog" binding="#{dialog}" visible="#{configurationController.dialogOpen}"
+		header="Neuen Herstellen anlegen" closable="true"
+		modal="true" draggable="false" showEffect="clip" hideEffect="fade"
+		
+		width="400">
+
+		<h:form id="configureElevatorDialogForm">
+			<h:panelGrid columns="2" width="100%">
+				<ice:outputText value="Hersteller:" />
+				<ice:inputText value="#{configurationController.newManufacturer}"/>
+
+				<ice:outputText value="Aufzugstyp:" />
+				<ice:inputText value="#{configurationController.newBrand}"/>
+			</h:panelGrid>
+
+			<h:panelGrid width="100%" style="text-align: center;">
+				<ice:commandButton id="submitBtn"
+					value="OK" actionListener="#{configurationController.addManufacturer}" />
+			</h:panelGrid>
+		</h:form>
+
+	</ace:dialog>
+</h:body>
+<!-- h:outputStylesheet library="org.icefaces.component.skins"
+	name="rime.css" /-->
+</html>

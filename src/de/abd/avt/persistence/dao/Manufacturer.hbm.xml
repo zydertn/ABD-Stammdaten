@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.06.2011 16:26:21 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="de.abd.avt.persistence.dao.Manufacturer" table="MANUFACTURER">
+	<id name="name" column="MANUFACTURER_NAME" length="50" />
+	<list name="brands" table="manufacturerBrands" lazy="false">
+		<key column="MANUFACTURER_BRANDS" />
+		<index column="idx"></index>
+		<element column="BRANDS" type="text" />
+	</list>
+
+
+
+      <!-- set name="brands" lazy="false">
+	        <key column="MANUFACTURER_BRANDS" not-null="false"/>
+	        <element type="text" column="BRANDS"/>
+	  </set-->
+	 </class>
+ </hibernate-mapping>
+ 

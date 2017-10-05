@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.06.2011 16:26:21 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="de.abd.avt.persistence.dao.Person" table="PERSON">
+		<id name="id" type="int" column="PERSON_ID" >
+			<generator class="native"/>
+		</id>
+	 	<property type="string" name="name" column="PERSON_NAME" length="70" />
+	 	<property type="string" name="firstname" column="PERSON_FIRSTNAME" length="100" />
+	 	<property type="string" name="gender" column="PERSON_GENDER" length="5" />
+	 	<property type="string" name="phoneNr" column="PERSON_PHONE_NR_FIRST" length="13" />
+	 	<property type="string" name="email" column="PERSON_EMAIL" length="100" />
+	 	<property type="string" name="de_mail" column="PERSON_DE_MAIL" length="100" />
+	 	<many-to-one name="customer" class="de.abd.avt.persistence.dao.Customer" fetch="select">
+             <column name="CUSTOMER_ID" not-null="true"/>
+	 	</many-to-one>
+		<set name="elevators" table="elevator" inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="PERSON_ID" not-null="true"/>
+            </key>
+            <one-to-many class="de.abd.avt.persistence.dao.Elevator" />
+        </set>
+
+	 </class>
+ </hibernate-mapping>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.06.2011 16:26:21 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="de.abd.avt.persistence.dao.Customergroup" table="CUSTOMERGROUP">
+		<id name="groupName" type="string" column="CG_NAME" >
+		</id>
+		<set name="customers" table="customer" inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="CG_NAME" not-null="false"/>
+            </key>
+            <one-to-many class="de.abd.avt.persistence.dao.Customer" />
+        </set>
+  
+	 </class>
+ </hibernate-mapping>

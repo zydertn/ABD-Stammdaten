@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+<center>
+	<h:panelGrid columns="1" style="margin-top: 35px;">
+		<h:panelGrid columns="3">
+			<h:panelGrid columns="1" cellspacing="12" bgcolor="#E0E6F8" style="height:300px; width: 374px">
+				<div align="center" style="color:#848484">
+					<h1>AUFZUG</h1>
+				</div>
+				<hr/>
+				
+				<h:panelGrid columns="1" style="width:100%">
+					<ice:commandButton id="searchElevator"
+						value="Suche" style="width:100%; height:40px;" />
+				</h:panelGrid>
+				<h:panelGrid columns="2" style="width:100%">
+					<ice:commandButton id="createNewElevator"
+						action="#{actionController.openAddElevatorDialog}"
+						actionListener="#{actionController.processAction}"
+						value="Anlegen" style="width:100%; height:40px; margin-bottom:15px;" />
+					<ice:commandButton id="updateElevator"
+						action="#{actionController.openUpdateElevatorDialog}"
+						actionListener="#{actionController.processAction}"
+						value="Ändern/Löschen" style="width:100%; height:40px; margin-bottom:15px" />
+					<ice:commandButton id="configureElevator"
+						action="#{actionController.openConfigureElevatorDialog}"
+						actionListener="#{actionController.processAction}"
+						value="Konfigurieren" style="width:100%; height:40px; margin-bottom:15px;" />
+				</h:panelGrid>
+			</h:panelGrid>
+			<ice:graphicImage url="images/ABDNotrufzentraleLOGO.jpg" height="55" width="200" style="display: block; margin-left: auto; margin-right: auto"></ice:graphicImage>
+
+			<h:panelGrid columns="1" cellspacing="12" bgcolor="#E0E6F8" style="height: 300px; width: 374px; ">
+				<div align="center" style="color:#848484">
+					<h1>KUNDE</h1>
+				</div>
+				<hr/>
+
+				<h:panelGrid columns="1" style="width:100%">
+					<ice:commandButton id="showCustomerElevators"
+						action="#{actionController.openShowCustomerElevatorsDialog}"
+						actionListener="#{actionController.processAction}"
+						value="Alle Aufzüge anzeigen" style="width:100%; height:40px;" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" style="width:100%">
+					<ice:commandButton id="addCustomer"
+						action="#{actionController.openAddCustomerDialog}"
+						actionListener="#{actionController.processAction}"
+						value="Anlegen" style="width:100%; height:40px; margin-bottom:15px" />
+					<ice:commandButton id="updateCustomer"
+						action="#{actionController.openUpdateCustomerDialog}"
+						actionListener="#{actionController.processAction}"
+						value="Ändern/löschen" style="width:100%; height:40px; margin-bottom:15px" />
+					<ice:commandButton id="showCustomerList"
+						action="#{actionController.openShowCustomersDialog}"
+						actionListener="#{actionController.processAction}"
+						value="Kundenliste" style="width:100%; height:40px; margin-bottom:15px" />
+					<ice:commandButton id="configureCustomer"
+						value="Konfigurieren" style="width:100%; height:40px; margin-bottom:15px;" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGrid>
+
+		<ice:graphicImage url="images/abd_home.jpg" style="display: block; margin-left:3px;"></ice:graphicImage>
+		
+		<h:panelGrid columns="3">
+			<h:panelGrid columns="1" cellspacing="12" bgcolor="#E0E6F8" style="height:300px; width: 374px">
+				<div align="center" style="color:#848484">
+					<h1>RECHNUNG</h1>
+				</div>
+				<hr/>
+
+				<h:panelGrid columns="1" style="width:100%; margin-bottom:80px;">
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2" style="width:100%">
+				</h:panelGrid>
+			</h:panelGrid>
+			<h:panelGrid style="width:200px; "></h:panelGrid>
+			<h:panelGrid columns="1" cellspacing="12" bgcolor="#E0E6F8" style="height: 300px; width: 374px; ">
+				<div align="center" style="color:#848484">
+					<h1>STÖRUNG</h1>
+				</div>
+				<hr/>
+
+				<h:panelGrid columns="1" style="width:100%">
+					<ice:commandButton id="createIncident"
+						action="#{actionController.openCreateIncidentDialog}"
+						actionListener="#{actionController.processAction}"
+						value="Erfassen" style="width:100%; height:40px;" />
+				</h:panelGrid>
+				<h:panelGrid columns="2" style="width:100%">
+					<ice:commandButton id="showCurrentIncidents"
+						value="Aktuelle Störungen" style="width:100%; height:40px; margin-bottom:15px" />
+					<ice:commandButton id="showIncidentHistory"
+						value="Historie" style="width:100%; height:40px; margin-bottom:15px" />
+					<h:panelGrid style="height:55px"></h:panelGrid>
+				</h:panelGrid>
+				
+			</h:panelGrid>
+		</h:panelGrid>
+		
+		<h:panelGrid>
+			<h:outputText escape="false" style="color: red"
+				value="" />
+		</h:panelGrid>
+	</h:panelGrid>
+</center>
+
+</ui:composition>

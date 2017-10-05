@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+<h:head>
+	<title>ABD Aufzugs-und Störugsverwaltung</title>
+	<link rel="stylesheet" type="text/css" href="./css/mystyle.css" />
+</h:head>
+<h:body styleClass="ice-skin-rime" style="background-color:#D8D8D8">
+
+	<h:form id="manuForm">
+		<ui:include src="upperMenu.xhtml"></ui:include>
+	</h:form>
+		<p>
+			<h:panelGrid columns="2">
+				<ice:outputText style="font-weight:bolder; margin-right:15px" value="Störung erfassen" />
+				<ice:outputText escape="false" style="color: red" value="#{actionController.requestMessage}" />		
+			</h:panelGrid>
+		</p>
+		<h:panelGrid columns="2">
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<h:form id="manufacturerForm">
+					<h:panelGrid columns="2">
+						<!--ice:outputText value="Hersteller: " />
+						<ice:selectOneMenu value="#{incidentController.elevator.manufacturer}" valueChangeListener="#{incidentController.manufacturerChange}">
+							<f:ajax execute="@this" render="mnAuto"/>
+							<f:selectItems value="#{actionController.model.configuration.manufacturers}" var="manufacturer" itemLabel="#{manufacturer.name}" itemValue="#{manufacturer.name}" />
+						</ice:selectOneMenu-->
+						<ice:outputText value="Fabriknummer: " />
+						<ace:autoCompleteEntry id="mnAuto"
+							value="#{incidentController.elevator.machineNumber}" rows="20"
+							width="100" filterMatchMode="" valueChangeListener="#{incidentController.machineNumberChange}"
+							labelPosition="left">
+							<f:ajax execute="@this" render="elevatorPanel"/>
+							<f:selectItems value="#{incidentController.machineNumberSI}" />
+						</ace:autoCompleteEntry>
+					</h:panelGrid>
+				</h:form>
+
+				<h:form id="gMapAutoForm">
+					<h:panelGrid columns="2">
+						<ace:gMap address="${incidentController.initaddress}" zoomLevel="13" style="width: 800px; height: 200px" id="gMap"><ace:gMapAutocomplete style="xAlign:left" address="${incidentController.address}" types="${incidentController.types}" url="${incidentController.url}"/></ace:gMap>
+						<h:panelGrid>
+							<ice:outputText value="Address: ${incidentController.address}"/>
+							<ice:commandButton value="Aufzug suchen" actionListener="#{incidentController.searchElevatorsByAddress}"/>					
+							<h:inputHidden value="#{incidentController.elevator.installationAddress}"></h:inputHidden>
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:form>
+			</h:panelGrid>
+		</h:panelGrid>
+
+
+		<h:panelGrid>
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<h:outputText style="font-weight:bold" value="Aufzugsdaten:" />
+				<h:panelGrid columns="8" id="elevatorPanel">
+					<ice:outputText value="Hersteller:"/> 
+					<ice:outputText value="#{incidentController.elevator.manufacturer}" style="font-weight:bold;"/>
+					<ice:outputText value="Fabriknnummer:" style="margin-left: 20px;" />
+					<ice:outputText value="#{incidentController.elevator.machineNumber}" style="font-weight:bold;"/>
+					<ice:outputText value="Installationsort:" style="margin-left: 20px;" />
+					<ice:outputText value="#{incidentController.elevator.installationAddress}" style="font-weight:bold;"/>
+					<ice:outputText value="Position:" style="margin-left: 20px;" />
+					<ice:outputText value="#{incidentController.elevator.position}" style="font-weight:bold;"/>
+
+					<!-- ice:outputText value="Aufzugstyp: " style="margin-left: 20px;" />
+					<ice:outputText value="#{incidentController.elevator.brand}" style="font-weight:bold;"/>
+					<ice:outputText value="Kunde:" style="margin-left: 20px;"/>
+					<ice:outputText value="#{incidentController.elevator.customer.listString}" style="font-weight:bold;"/-->
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGrid>
+
+		<h:panelGrid>
+			<h:form id="buttonForm">
+				<h:panelGrid columns="3">
+					<ice:commandButton value="Abbrechen"
+						action="#{actionController.cancel}"></ice:commandButton>
+					<ice:commandButton value="Speichern und nächste Aufzugsanlage"
+						action="#{elevatorController.createElevatorNext}"></ice:commandButton>
+					<ice:commandButton value="Speichern und Ende"
+						action="#{elevatorController.createElevatorFinish}"></ice:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</h:panelGrid>
+
+	<!-- /h:form-->
+
+	<ace:dialog id="dialog" binding="#{dialog}" widgetVar="elevatorListDialog"
+		visible="#{incidentController.dialogOpen}"
+		header="A sample dialog overview example" closable="false"
+		modal="true" draggable="false" showEffect="clip" hideEffect="fade"
+		width="400">
+
+		<h:form id="incidentDialogForm">
+			<h:panelGrid columns="2" width="100%">
+				<ice:selectOneRadio value="#{incidentController.elevatorString}"
+					required="true" layout="pageDirection">
+					<f:selectItems itemLabel="Hersteller: #{elevator.manufacturer}; Fabriknummer: #{elevator.machineNumber}" var="elevator"
+						value="#{incidentController.elevators}"></f:selectItems>
+				</ice:selectOneRadio>
+			</h:panelGrid>
+
+			<h:panelGrid width="100%" style="text-align: center;">
+				<ice:commandButton id="submitBtn"
+					value="OK"
+					actionListener="#{incidentController.closeDialog}" />
+			</h:panelGrid>
+		</h:form>
+
+	</ace:dialog>
+
+</h:body>
+<!-- h:outputStylesheet library="org.icefaces.component.skins"
+	name="rime.css" /-->
+</html>

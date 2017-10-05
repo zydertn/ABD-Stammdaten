@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+<h:head>
+	<title>MDA</title>
+	<link rel="stylesheet" type="text/css" href="./css/mystyle.css" />
+</h:head>
+<h:body styleClass="ice-skin-rime" style="background-color:#D8D8D8">
+
+<!-- 
+Damit die Accordion Komponente funktioniert, musste zunächst ein Eintrag in die web.xml vorgenommen werden:
+  <context-param>
+    <param-name>org.icefaces.mandatoryResourceConfiguration</param-name>
+    <param-value>accordion</param-value>
+  </context-param>
+
+   mandatoryResource (since ICEfaces 3.0) A space-delimited list of components that will have their requisite resources pre-loaded on this page. The pre-loading allows the components to function correctly even if they are later added to the page dynamically. The values "none" (which is the default) and "all" are also valid. The value of this attribute on a page takes precedence over the values specified by the context parameter org.icefaces.mandatoryResourceConfiguration. See mandatoryResourceConfiguration for additional details.
+   
+   http://www.icesoft.org/wiki/display/ICE/mandatoryResourceConfiguration
+ -->
+
+	<h:form id="form">
+	
+		<ace:accordion id="accordion" collapsible="true" autoHeight="false">
+
+			<ace:accordionPane id="toDoList" title="My To Do List">
+
+				<h:outputText value="Test"></h:outputText>
+
+			</ace:accordionPane>
+
+			<ace:accordionPane id="shoppingList" title="My Shopping List">
+
+				<h:outputText value="Test"></h:outputText>
+
+			</ace:accordionPane>
+
+			<ace:accordionPane id="picOfDay" title="Picture of the day">
+
+				<h:outputText value="Test"></h:outputText>
+
+			</ace:accordionPane>
+
+		</ace:accordion>
+
+	</h:form>
+
+</h:body>
+</html>

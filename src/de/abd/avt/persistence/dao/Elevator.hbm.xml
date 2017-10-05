@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.06.2011 16:26:21 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="de.abd.avt.persistence.dao.Elevator" table="ELEVATOR">
+		<!-- composite-id>
+			<key-property name="machineNumber" type="string" column="ELEVATOR_MACHINE_NUM" length="12"></key-property>
+			<key-property name="manufacturer" type="string" column="ELEVATOR_MANUFACTURER" length="50"></key-property>
+		</composite-id-->
+		<id name="id" type="int" column="ELEVATOR_ID" >
+			<generator class="identity"/>
+		</id>
+
+		<property name="machineNumber" type="string" column="ELEVATOR_MACHINE_NUM" length="12"/>
+		<property name="manufacturer" type="string" column="ELEVATOR_MANUFACTURER" length="50"/>
+
+	 	<property type="string" name="installationAddress" column="ELEVATOR_INST_ADDRESS" length="100" />
+		<property type="string" name="position" column="ELEVATOR_POSITION" length="100" />
+	 	<property name="brand" type="string" column="ELEVATOR_BRAND" />
+	 	<!-- many-to-one name="customer" class="de.abd.avt.persistence.dao.Customer" column="ELEVATOR_CUSTOMER" lazy="false" not-null="false" cascade="save-update" foreign-key="CUSTOMER_ID" fetch="select"></many-to-one-->
+	 	<many-to-one name="customer" class="de.abd.avt.persistence.dao.Customer" fetch="select">
+             <column name="CUSTOMER_ID" not-null="true"/>
+	 	</many-to-one>
+	 	<property name="technique" type="string" column="ELEVATOR_TECHNIQUE" />
+	 	<property name="equippedWithMachineRoom" type="boolean" column="ELEVATOR_EQUIP_W_MACHINE_ROOM" />
+	 	<property name="typeOfBuilding" type="string" column="ELEVATOR_TYPE_OF_BUILDING" />
+	 	<property name="accessToBuilding" type="string" column="ELEVATOR_ACCESS_TO_BUILDING" />
+	 	<property name="status" type="string" column="ELEVATOR_STATUS" />
+	 	<!-- many-to-one name="contactPerson" class="de.abd.avt.persistence.dao.Person" column="ELEVATOR_PERSON" lazy="false" not-null="false" cascade="all-delete-orphan" unique="true" foreign-key="PERSON_ID"></many-to-one-->
+	 	<many-to-one name="contactPerson" class="de.abd.avt.persistence.dao.Person" fetch="select">
+	 	 	<column name="PERSON_ID" not-null="true"/>
+		</many-to-one>
+	 </class>
+ </hibernate-mapping>

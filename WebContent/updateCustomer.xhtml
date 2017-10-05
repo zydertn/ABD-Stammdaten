@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>ABD Aufzugs-und Störugsverwaltung</title>
+	<link rel="stylesheet" type="text/css"
+		href="./xmlhttp/css/rime/rime.css" />
+</h:head>
+<h:body styleClass="ice-skin-rime" style="background-color:#D8D8D8">
+
+	<h:form id="updateCusForm">
+		<!-- ui:include src="CustomerTable.xhtml"></ui:include-->
+		<ui:include src="upperMenu.xhtml"></ui:include>
+
+		<p>
+			<h:panelGrid columns="2">
+				<ice:outputText style="font-weight:bolder; margin-right:15px" value="Kundendaten ändern" />
+				<ice:outputText escape="false" style="color: red" value="#{actionController.requestMessage}" />
+			</h:panelGrid>
+		</p>
+
+		<h:panelGrid columns="2">
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<ice:outputText style="font-weight:bold" value="Kundendaten:" />
+
+				<h:panelGrid columns="7">
+					<ice:outputText value="Firmenname:" />
+					<ice:inputText size="15" value="#{customerController.customer.name}" 
+						disabled="#{customerController.componentDisabled}"
+						style="margin-right: 34px;" />
+					<ice:outputText value="Kundennummer:" />
+					<h:panelGrid columns="2" style="margin-right: 34px;">
+						<ice:inputText size="12" maxlength="15" 
+							value="#{customerController.customer.customernumber}" />
+						<ice:commandButton image="images/search.png" style="width: 15px; height: 15px;" actionListener="#{customerController.searchCustomer}"></ice:commandButton>
+					</h:panelGrid>
+
+					<ice:outputText value="Niederlassung:" />
+					<ice:inputText size="15"
+						disabled="#{customerController.componentDisabled}"
+						value="#{customerController.customer.branch}" />
+					<ice:outputText/>
+	
+					<ice:outputText value="Kundengruppe:"/>
+					<ice:selectOneMenu disabled="#{customerController.componentDisabled}" binding="#{customergroupController.groupBinding}" value="#{customerController.groupName}" partialSubmit="true" valueChangeListener="#{customergroupController.customergroupChange}">
+						<f:ajax execute="@this" render="selectOnePerson"/>
+						<f:ajax execute="@this" render="selectOnePerson2"/>
+						<f:selectItem itemValue="#{null}" itemLabel="" />
+						<f:selectItems
+							value="#{customergroupController.customergroups}" var="group" itemLabel="#{group.groupName}" itemValue="#{group.groupName}" />
+					</ice:selectOneMenu>
+					<ice:outputText value="Land:"/>
+					<ice:selectOneMenu disabled="#{customerController.componentDisabled}"
+						value="#{customerController.countryName}">
+						<f:selectItems
+							value="#{actionController.model.countries}" var="country" itemLabel="#{country.name}" itemValue="#{country.name}" />
+					</ice:selectOneMenu>
+					<ice:outputText value="Ansprechpartner:" />
+					<ice:selectOneMenu id="selectOnePerson" binding="#{customergroupController.contactPersonBinding}" disabled="#{customerController.componentDisabled}" value="#{customerController.contactPersonID}">
+						<f:selectItems value="#{customergroupController.contactPersons}" var="person" itemLabel="#{person.nameString} - #{person.phoneNr}" itemValue="#{person.id}"/>
+					</ice:selectOneMenu>
+					<ice:commandButton image="images/Plus_Icon_31.png" disabled="#{customerController.componentDisabled}" actionListener="#{personController.openDialog}"></ice:commandButton>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<ice:outputText value="Adresse:"/>
+					<ace:gMap style="width: 0px; height: 0px;" id="gMap"><ace:gMapAutocomplete style="xAlign:left" address="#{customerController.address}"/></ace:gMap>
+					<ice:outputText/>
+					<ice:outputText id="addressOutput" value="#{customerController.address}"/>
+				</h:panelGrid>
+
+			</h:panelGrid>
+		</h:panelGrid>
+
+			<ice:panelPopup visible="#{customerController.opened}"
+				rendered="#{customerController.opened}" modal="true"
+				autoCentre="true">
+				<f:facet name="header">
+					<ice:outputText value="Welcher Kunde soll geändert werden?"/>
+				</f:facet>
+				<f:facet name="body">
+					<ice:selectOneRadio value="#{customerController.selectedCustomer}"
+						required="true" layout="pageDirection">
+						<f:selectItems itemLabel="#{customer.listString}" var="customer"
+							value="#{customerController.customerList}"></f:selectItems>
+					</ice:selectOneRadio>
+					<ice:commandButton value="Submit"
+						actionListener="#{customerController.selectCustomer}"/>
+				</f:facet>
+			</ice:panelPopup>
+
+
+		<h:panelGrid columns="2">
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<ice:outputText style="font-weight:bold" value="Rechnungsadresse:" />
+				<h:panelGrid columns="4">
+					<ice:outputText value="Ansprechpartner:" />
+					<ice:selectOneMenu binding="#{customergroupController.invoiceContactPersonBinding}" disabled="#{customerController.componentDisabled}" id="selectOnePerson2" value="#{customerController.invoicePersonID}">
+						<f:selectItem itemValue="#{null}" itemLabel="" />
+						<f:selectItems value="#{customergroupController.contactPersons}" var="person" itemLabel="#{person.nameString} - #{person.phoneNr}" itemValue="#{person.id}"/>
+					</ice:selectOneMenu>
+					<ice:outputText value="Adresse:" />
+					<ace:gMap style="width: 0px; height: 0px;" id="gMap2"><ace:gMapAutocomplete style="xAlign:left" address="#{customerController.invoiceAddress}"/></ace:gMap>
+
+					<ice:outputText/>
+					<ice:outputText/>
+					<ice:outputText/>
+					<h:outputText value="${customerController.invoiceAddress}"/>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGrid>
+		<h:panelGrid columns="2">
+			<h:panelGrid bgcolor="#E0E6F8" cellspacing="1" width="1200">
+				<ice:outputText style="font-weight:bold" value="Rechnung:" />
+					<h:panelGrid columns="2">
+						<h:panelGrid columns="6">
+							<ice:outputText value="Preiskategorie: " />
+							<ice:selectOneMenu disabled="#{customerController.componentDisabled}"
+								value="#{customerController.customer.invoiceConfiguration.simPrice}" >
+								<f:selectItems value="#{actionController.model.simPrices.entrySet()}" var="simPriceVar" itemLabel="#{simPriceVar.key} - #{simPriceVar.value} €" itemValue="#{simPriceVar.key}" />
+							</ice:selectOneMenu>
+							<ice:outputText value="Format: " />
+							<ice:selectOneMenu disabled="#{customerController.componentDisabled}"
+								value="#{customerController.customer.invoiceConfiguration.format}">
+								<f:selectItems value="#{actionController.model.invoiceFormats}" />
+							</ice:selectOneMenu>
+							<ice:outputText value="Einzugsermächtigung:"/>
+							<ice:selectBooleanCheckbox disabled="#{customerController.componentDisabled}" value="#{customerController.customer.invoiceConfiguration.debtOrder}"></ice:selectBooleanCheckbox>
+
+							<ice:outputText value="Zahlungsziel:"/>
+							<ice:inputText disabled="#{customerController.componentDisabled}" value="#{customerController.customer.invoiceConfiguration.paymentTarget}" maxlength="2" size="2"/>
+							<ice:outputText value="Frequenz: " />
+							<ice:selectOneMenu disabled="#{customerController.componentDisabled}"
+								value="#{customerController.customer.invoiceConfiguration.creationFrequency}">
+								<f:selectItems
+									value="#{actionController.model.invoiceCreationFrequencies}" />
+							</ice:selectOneMenu>
+							<ice:outputText value="Sortierung: " />
+							<ice:selectOneMenu disabled="#{customerController.componentDisabled}"
+								value="#{customerController.customer.invoiceConfiguration.sortingOption}">
+								<f:selectItems value="#{actionController.model.sortingOptions.entrySet()}" var="sortOptVar" itemLabel="#{sortOptVar.value}" itemValue="#{sortOptVar.key}" />
+							</ice:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<ice:outputText value="Spalten:" />
+							<ice:panelGroup style="overflow-y:auto; width:200px; height:65px;">
+								<ice:selectManyCheckbox disabled="#{customerController.componentDisabled}" layout="pageDirection"
+									value="#{customerController.customer.invoiceConfiguration.columns}">
+									<f:selectItems value="#{actionController.model.invoiceColumns}"/>
+								</ice:selectManyCheckbox>
+							</ice:panelGroup>
+						</h:panelGrid>
+					</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<ice:outputText value="Kommentar:" />
+					<ice:inputText disabled="#{customerController.componentDisabled}" style="margin-left:19px" size="138" maxlength="100" value="#{customerController.customer.comment}" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGrid>
+
+		
+		<h:panelGrid>
+			<h:panelGrid columns="3">
+				<ice:commandButton value="Abbrechen"
+					action="#{actionController.cancel}"/>
+				<h:commandButton value="Änderungen speichern" disabled="#{customerController.componentDisabled}"
+					actionListener="#{customerController.updateCustomerAction}" />
+				<ice:commandButton value="Löschen" disabled="#{customerController.componentDisabled}"
+					action="#{customerController.deleteCustomer}"/>
+			</h:panelGrid>
+		</h:panelGrid>
+
+	</h:form>
+</h:body>
+</html>

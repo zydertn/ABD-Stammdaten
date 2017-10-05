@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:icecore="http://www.icefaces.org/icefaces/core"
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+	<style type="text/css">
+		.wijmo-wijmenu .ui-state-default .ui-icon {
+		    background-image: url("../../../../images/icon_aufzuege.png");
+		}
+		
+		.wijmo-wijmenu { width:1200px; padding:0.3em; position:relative; }
+   </style>
+	
+	<ace:menuBar id="menuBarId" styleClass="testClass"  autoSubmenuDisplay="true" >
+		<ace:menuItem value="Home"
+			url="http://localhost:8080/ABD-AVT/index.jsp" target="_self"
+			icon="ui-icon ui-icon-home" />
+		<ace:submenu id="elevator" label="Aufzug" icon="ui-icon ui-icon-document">
+			<ace:menuItem id="elevatorSearch" value="Suche">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+			<ace:menuItem id="elevatorCreate" value="Anlegen"
+				action="#{actionController.openAddElevatorDialog}"
+				actionListener="#{actionController.processAction}">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+			<ace:menuItem id="elevatorUpdate" value="Ändern/Löschen"
+				action="#{actionController.openUpdateElevatorDialog}"
+				actionListener="#{actionController.processAction}">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+		</ace:submenu>
+		<ace:submenu id="customer" label="Kunde" icon="ui-icon ui-icon-document">
+			<ace:menuItem id="customerShowElevators"
+				value="Alle Aufzüge anzeigen"
+				action="#{actionController.openShowCustomerElevatorsDialog}"
+				actionListener="#{actionController.processAction}">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+			<ace:menuItem id="customerCreate" value="Anlegen"
+				action="#{actionController.openAddCustomerDialog}"
+				actionListener="#{actionController.processAction}">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+			<ace:menuItem id="customerUpdate" value="Ändern/Löschen"
+				action="#{actionController.openUpdateCustomerDialog}"
+				actionListener="#{actionController.processAction}">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+			<ace:menuItem id="customerList" value="Kundenliste"
+				action="#{actionController.openShowCustomersDialog}"
+				actionListener="#{actionController.processAction}">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+		</ace:submenu>
+		<ace:submenu id="invoice" label="Rechnung" icon="ui-icon ui-icon-document">
+		</ace:submenu>
+		<ace:submenu id="incident" label="Störung" icon="ui-icon ui-icon-document">
+			<ace:menuItem id="incidentCreate" value="Erfassen"
+				action="#{actionController.openCreateIncidentDialog}"
+				actionListener="#{actionController.processAction}">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+			<ace:menuItem id="incidentsCurrent" value="Aktuelle Störungen">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+			<ace:menuItem id="incidentHistory" value="Historie">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+		</ace:submenu>
+		<ace:submenu id="configuration" label="Konfiguration" icon="ui-icon ui-icon-document">
+			<ace:menuItem id="configurationElevator"
+				value="Aufzüge konfigurieren"
+				action="#{actionController.openConfigureElevatorDialog}"
+				actionListener="#{actionController.processAction}">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+			<ace:menuItem id="configurationCustomer" value="Kunde konfigurieren">
+				<ace:ajax event="activate" execute="@this" render="message" />
+			</ace:menuItem>
+		</ace:submenu>
+
+	</ace:menuBar>
+
+</ui:composition>

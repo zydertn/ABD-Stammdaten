@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.06.2011 16:26:21 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="de.abd.avt.persistence.dao.Configuration"
+		table="CONFIGURATION">
+		<id name="id" type="int" column="C_ID">
+			<generator class="native" />
+		</id>
+
+      <list name="manufacturers" lazy="false" cascade="all">
+         <key column="C_ID"/>
+         <list-index column="idx"/>
+         <one-to-many class="de.abd.avt.persistence.dao.Manufacturer"/>
+      </list>
+		<!-- map name="brands" table="brands" lazy="false">  
+			<key column="C_id"></key>  
+			<index column="MANUFACTURER" type="string"></index>  
+			<many-to-many class="java.lang.String" column="BRANDS"></many-to-many>   
+		</map-->  
+		<!-- map name="bills" table="billTables" cascade="all">  
+			<key column="parent_id"></key>  
+			<index column="bill_date" type="string"></index>  
+			<many-to-many class="de.abd.mda.persistence.dao.Bill" column="billid"></many-to-many>  
+		</map-->  
+
+		<!-- set name="brands" table="brands" lazy="false">
+        	<key column="C_ID"/>
+			<element type="text"/>
+    	</set-->
+		 <list name="elevatorStates" table="elevatorStates" lazy="false">
+        	<key column="C_ID"/>
+			<index column="idx"></index>
+			<element column="elevatorState" type="text"/>
+    	</list>
+		 <list name="techniques" table="elevatorTechniques" lazy="false">
+        	<key column="C_ID"/>
+			<index column="IDX"></index>
+			<element column="TECHNIQUE" type="text"/>
+    	</list>
+		 <list name="typesOfBuilding" table="typesOfBuilding" lazy="false">
+        	<key column="C_ID"/>
+			<index column="IDX"></index>
+			<element column="TECHNIQUE" type="text"/>
+    	</list>
+    	
+    	
+    	
+	</class>
+</hibernate-mapping>
